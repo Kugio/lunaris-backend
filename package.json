@@ -1,12 +1,5 @@
 {
   "name": "lunaris-backend",
   "version": "1.0.0",
-  "description": "Lunaris Statistics Backend",
-  "main": "api/stats.js",
-  "scripts": {
-    "start": "vercel dev"
-  },
-  "dependencies": {
-    "@vercel/kv": "^1.0.1"
-  }
+  "description": "Lunaris Statistics Backend"
 }
