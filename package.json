@@ -1,5 +1,9 @@
 {
   "name": "lunaris-backend",
   "version": "1.0.0",
-  "description": "Lunaris Statistics Backend"
+  "type": "module",
+  "description": "Lunaris Statistics Backend",
+  "dependencies": {
+    "@vercel/kv": "^1.0.1"
+  }
 }
