@@ -1,4 +1,6 @@
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
+
+const redis = Redis.fromEnv();
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,20 +12,22 @@ export default async function handler(req, res) {
   }
   
   try {
-    // Получаем всех активных пользователей
-    const allUserKeys = await kv.keys('user:*');
-    const onlineCount = allUserKeys.length;
-    const totalCount = await kv.scard('all_users');
+    // Получаем всех онлайн пользователей
+    const userKeys = await redis.keys('user:*');
+    const onlineCount = userKeys.length;
+    
+    // Получаем общее количество
+    const totalCount = await redis.scard('all_users');
     
     res.status(200).json({
       status: 'online',
       online_users: onlineCount,
-      total_users: totalCount || 500,
+      total_users: totalCount || 0,
       last_update: Date.now(),
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error('Stats error:', error);
+    console.error('[Stats] Error:', error);
     res.status(500).json({
       status: 'error',
       online_users: 0,
